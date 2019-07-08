@@ -19,14 +19,10 @@ public class Utility {
 
     }
 
-    public Utility(){
-
-    }
-
     public Map<Object, Object>  getResponseData(){
         Map<Object, Object> map = new HashMap<>();
         map.put("message", this.message);
-        map.put("data", this.data);
+        map.put("contents", this.data);
 
         return map;
     }

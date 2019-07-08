@@ -18,14 +18,14 @@ public class User {
     public String role;
 
 
-    public User(ObjectId _id, String username, String password, boolean enabled, String role) {
+   /* public User(ObjectId _id, String username, String password, boolean enabled, String role) {
         this._id = _id;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
         this.role = role;
     }
-
+*/
     public User(){
 
     }
@@ -36,4 +36,13 @@ public class User {
         this.enabled = enabled;
         this.role = role;
     }
+
+   /* public String get_id() {
+        return this._id.toHexString();
+    }*/
+
+    public void set_id(ObjectId _id) {
+        this._id = _id;
+    }
+
 }

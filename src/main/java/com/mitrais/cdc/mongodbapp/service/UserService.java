@@ -4,6 +4,7 @@ import com.mitrais.cdc.mongodbapp.model.User;
 import com.mitrais.cdc.mongodbapp.payload.APIResponse;
 import com.mitrais.cdc.mongodbapp.repository.IUserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class UserService {
 
         try{
             User userData = userRepository.findByUsername(user.getUsername());
-            userData.setPassword(user.getPassword());
+            userData.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
             userData.setEnabled(user.isEnabled());
             return new APIResponse(true, "Update user data has been updated successfully", userRepository.save(userData));
         }catch (Exception e){
@@ -53,5 +54,27 @@ public class UserService {
         }
 
         return new APIResponse(false, "Delete user data was failed", userData);
+    }
+
+    public APIResponse FindUserById(ObjectId id){
+
+        try{
+            return new APIResponse(true, "User data was found", userRepository.findBy_id(id));
+        }catch (Exception e){
+            log.info(e.getMessage(), e);
+        }
+
+        return new APIResponse(false, "Data was not found", null);
+    }
+
+    public APIResponse GetAllUsers(){
+
+        try{
+            return new APIResponse(true, "Users data was founds", userRepository.findAll());
+        }catch (Exception e){
+            log.info(e.getMessage(), e);
+        }
+
+        return new APIResponse(false, "Data was not found", null);
     }
 }
