@@ -1,0 +1,57 @@
+package com.mitrais.cdc.mongodbapp.service;
+
+import com.mitrais.cdc.mongodbapp.model.User;
+import com.mitrais.cdc.mongodbapp.payload.APIResponse;
+import com.mitrais.cdc.mongodbapp.repository.IUserRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Slf4j
+@Service
+public class UserService {
+
+    @Autowired
+    IUserRepository userRepository;
+
+    public APIResponse UserRegistration(User user){
+
+        try{
+            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+            return new APIResponse(true,"User has been registered successfully", userRepository.save(user));
+        }catch (Exception e){
+            log.info(e.getMessage(), e);
+
+        }
+
+        return new APIResponse(false, "User registration was failed", null);
+    }
+
+    public APIResponse UpdateUserData(User user){
+
+        try{
+            User userData = userRepository.findByUsername(user.getUsername());
+            userData.setPassword(user.getPassword());
+            userData.setEnabled(user.isEnabled());
+            return new APIResponse(true, "Update user data has been updated successfully", userRepository.save(userData));
+        }catch (Exception e){
+            log.info(e.getMessage(), e);
+        }
+
+        return new APIResponse(false, "Update user data was failed", null);
+    }
+
+    public APIResponse DeleteUserByUsername(String username){
+        User userData = null;
+        try{
+            userData = userRepository.findByUsername(username);
+            userRepository.delete(userData);
+            return new APIResponse(true, "Delete user data has been executed successfully", username);
+        }catch (Exception e){
+            log.info(e.getMessage(), e);
+        }
+
+        return new APIResponse(false, "Delete user data was failed", userData);
+    }
+}
