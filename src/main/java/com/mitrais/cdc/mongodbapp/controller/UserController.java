@@ -39,6 +39,11 @@ public class UserController {
         return ResponseEntity.ok(new Utility("Find User Data", userService.FindUserById(id)).getResponseData());
     }
 
+    @RequestMapping(value="/find-user-by-username/{username}", method = RequestMethod.GET)
+    public ResponseEntity FindUserByUsername(@PathVariable("username") String username){
+        return ResponseEntity.ok(new Utility("Find User Data By Username", userService.FindUserByUsername(username)).getResponseData());
+    }
+
     @RequestMapping(value="/all-users", method = RequestMethod.GET)
     public ResponseEntity GetAllUsers(){
         return ResponseEntity.ok(new Utility("Find User Data", userService.GetAllUsers()).getResponseData());
