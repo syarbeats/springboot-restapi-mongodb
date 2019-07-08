@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IEmployeeRepository extends MongoRepository<Employee, String> {
+public interface IEmployeeRepository extends MongoRepository<Employee, String>{
 
     Employee findBy_id(ObjectId _id);
 

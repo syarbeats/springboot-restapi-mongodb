@@ -111,6 +111,17 @@ public class MongodbAppApplicationTests {
     }
 
     @Test
+    public void deleteUserByUsername() throws Exception{
+        String username = "arkhyterima";
+        mockMvc.perform(delete("/delete/user/"+username))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$['contents']['message']", containsString("Delete user data has been executed successfully")))
+                .andExpect(jsonPath("$['contents']['data']", containsString("arkhyterima")));
+
+    }
+
+
+    @Test
     public void findUserByID() throws Exception{
 
         mockMvc.perform(get("/find/user/"+ID))
@@ -118,6 +129,17 @@ public class MongodbAppApplicationTests {
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$['contents']['data']['username']", containsString(USERNAME_FOR_ID_5d22a9d168ed663ca092a574)));
 
+    }
+
+    @Test
+    public void getAllUsers() throws Exception{
+
+        mockMvc.perform(get("/all-users/"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$['contents']['message']", containsString("Users data was founds")))
+                .andExpect(jsonPath("$['contents']['data'][0]['username']", containsString("admin")))
+                .andExpect(jsonPath("$['contents']['data'][0]['role']", containsString("ROLE_ADMIN")));
     }
 
 
