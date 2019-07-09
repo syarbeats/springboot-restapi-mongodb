@@ -33,7 +33,15 @@ public class UserService {
 
         try{
             User userData = userRepository.findByUsername(user.getUsername());
-            userData.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+
+            if(!user.getPassword().isEmpty() && user.getPassword() != null){
+                userData.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+            }
+
+            if(!user.getEmail().isEmpty() && user.getEmail() != null){
+                userData.setEmail(user.getEmail());
+            }
+
             userData.setEnabled(user.isEnabled());
             return new APIResponse(true, "Update user data has been updated successfully", userRepository.save(userData));
         }catch (Exception e){
@@ -41,6 +49,19 @@ public class UserService {
         }
 
         return new APIResponse(false, "Update user data was failed", null);
+    }
+
+    public APIResponse ResetPassword(User user){
+
+        try{
+            User userData = userRepository.findByUsername(user.getUsername());
+            userData.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+            return new APIResponse(true, "Update user password has been updated successfully", userRepository.save(userData));
+        }catch (Exception e){
+            log.info(e.getMessage(), e);
+        }
+
+        return new APIResponse(false, "Update user password was failed", null);
     }
 
     public APIResponse DeleteUserByUsername(String username){
@@ -90,6 +111,21 @@ public class UserService {
         }
 
         return new APIResponse(false, "Internal System Error", null);
+    }
+
+    public User FindUserByEmail(String email){
+
+        try{
+            User user = userRepository.findByEmail(email);
+            if(user != null ){
+                return user;
+            }
+
+        }catch (Exception e){
+            log.info(e.getMessage(), e);
+        }
+
+        return null ;
     }
 
     public APIResponse GetAllUsers(){

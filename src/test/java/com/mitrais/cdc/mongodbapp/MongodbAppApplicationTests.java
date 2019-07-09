@@ -42,7 +42,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @SpringBootTest
 @Slf4j
 public class MongodbAppApplicationTests {

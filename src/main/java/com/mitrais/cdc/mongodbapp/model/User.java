@@ -16,6 +16,7 @@ public class User {
     public String password;
     public boolean enabled;
     public String role;
+    public String email;
 
 
    /* public User(ObjectId _id, String username, String password, boolean enabled, String role) {

@@ -14,7 +14,6 @@ public class APIResponse {
     public APIResponse(boolean success, String message, Object data) {
         this.success = success;
         this.message = message;
-
         this.data = data;
     }
 }
