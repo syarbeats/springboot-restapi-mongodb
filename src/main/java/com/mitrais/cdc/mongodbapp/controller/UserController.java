@@ -1,10 +1,14 @@
 package com.mitrais.cdc.mongodbapp.controller;
 
 import com.mitrais.cdc.mongodbapp.model.User;
+import com.mitrais.cdc.mongodbapp.payload.APIResponse;
+import com.mitrais.cdc.mongodbapp.payload.Token;
 import com.mitrais.cdc.mongodbapp.service.UserService;
 import com.mitrais.cdc.mongodbapp.utility.EmailUtility;
+import com.mitrais.cdc.mongodbapp.utility.TokenUtility;
 import com.mitrais.cdc.mongodbapp.utility.Utility;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +29,37 @@ public class UserController {
     @Autowired
     EmailUtility emailUtility;
 
+    @Autowired
+    TokenUtility tokenUtility;
+
     @RequestMapping(value="/register", method = RequestMethod.POST)
     public ResponseEntity UserRegister(@RequestBody User user){
-        return ResponseEntity.ok(new Utility("User Registration", userService.UserRegistration(user)).getResponseData());
+        APIResponse response = userService.UserRegistration(user);
+
+        if(response.isSuccess()){
+            //String token = tokenUtility.createToken(user.getUsername(), user.getRole());
+            String bytesEncoded = new String(Base64.encodeBase64(user.getUsername().getBytes()));
+            String contents = "Please klik the following link to activate your account, <br/> <a href = \"http://localhost:8080/activate?id=" +bytesEncoded+"\">Activate Account</a>";
+
+            try {
+                log.info("username--:"+ user.getUsername());
+                log.info("role--:"+ user.getRole());
+                log.info("token--:"+ bytesEncoded);
+                emailUtility.sendEmail(user.getEmail(), bytesEncoded, user.getUsername(), contents);
+                return ResponseEntity.ok(new Utility("Check your email to activate your account", user).getResponseData());
+
+            }catch(Exception e) {
+                log.error(e.getMessage(), e);
+
+            }
+        }
+        return ResponseEntity.ok(new Utility("Sent Email was failed when User Registration", response).getResponseData());
     }
+
+   /* @RequestMapping(value="/register", method = RequestMethod.POST)
+    public ResponseEntity UserRegister(@RequestBody User user){
+        return ResponseEntity.ok(new Utility("User Registration", userService.UserRegistration(user)).getResponseData());
+    }*/
 
     @RequestMapping(value="/update/user", method = RequestMethod.PATCH)
     public ResponseEntity UpdateUserData(@RequestBody User user){
@@ -68,7 +99,7 @@ public class UserController {
         String encodedUsername = new String(DatatypeConverter.parseBase64Binary(user.getUsername()));
 
         try {
-            emailUtility.sendEmail(email, encodedUsername, user.getUsername());
+            emailUtility.sendEmail(email, encodedUsername, user.getUsername(), "");
             return ResponseEntity.ok(new Utility("Check your email to reset your password", user).getResponseData());
 
         }catch(Exception e) {
@@ -77,5 +108,21 @@ public class UserController {
         }
         return ResponseEntity.ok(new Utility("Sending email to reset password was failed", user).getResponseData());
 
+    }
+
+    @RequestMapping(value="/update-user", method = RequestMethod.POST)
+    public ResponseEntity ActivateUser(@RequestBody Token id){
+
+        byte[] usernameDecoded = Base64.decodeBase64(id.getToken().getBytes());
+        String username = new String(usernameDecoded);
+        log.info("USERNAME", username);
+        APIResponse response = userService.ActivateUser(username);
+
+        if(response.isSuccess())
+        {
+            return ResponseEntity.ok(new Utility("Your account has been activated", username).getResponseData());
+        }
+
+        return ResponseEntity.ok(new Utility("User activated was failed", null).getResponseData());
     }
 }

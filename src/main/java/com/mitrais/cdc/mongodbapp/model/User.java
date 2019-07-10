@@ -38,6 +38,14 @@ public class User {
         this.role = role;
     }
 
+    public User(String username, String password, boolean enabled, String role, String email) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.role = role;
+        this.email = email;
+    }
+
    /* public String get_id() {
         return this._id.toHexString();
     }*/

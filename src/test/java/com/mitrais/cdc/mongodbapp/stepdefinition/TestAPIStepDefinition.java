@@ -1,35 +1,27 @@
 package com.mitrais.cdc.mongodbapp.stepdefinition;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.mitrais.cdc.mongodbapp.model.User;
 import com.mitrais.cdc.mongodbapp.payload.AuthenticationResponse;
-import com.mitrais.cdc.mongodbapp.payload.Contents;
+
 import com.mitrais.cdc.mongodbapp.payload.ResponseEntityCustom;
 import com.mitrais.cdc.mongodbapp.payload.UserLogin;
-import com.mitrais.cdc.mongodbapp.utility.Utility;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.*;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 
 import javax.xml.bind.DatatypeConverter;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class TestAPIStepDefinition {
 
@@ -50,14 +42,12 @@ public class TestAPIStepDefinition {
         }};
     }
 
-    @Given("Register new user with username (.*) with password (.*) and role (.*) using register API")
-    public void register_new_user_with_username_test_with_password_test_using_register_API(String username, String password, String role) {
-        User user = new User(username, password, true, role);
+    @Given("Register new user with username (.*) with password (.*) email (.*) and role (.*) using register API")
+    public void register_new_user_with_username_test_with_password_test_using_register_API(String username, String password, String email, String role) {
+        User user = new User(username, password, true, role, email);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
         requestHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        //System.out.println("Password for "+username +" is:"+password+" Role:"+role);
-        //restTemplate.postForObject("http://localhost:8080/register", user, User.class);
         HttpEntity<User> requestEntity = new HttpEntity<>(user, requestHeaders);
         postResponse = restTemplate.exchange
                 ("http://localhost:8080/register", HttpMethod.POST, requestEntity, ResponseEntityCustom.class);
@@ -97,8 +87,8 @@ public class TestAPIStepDefinition {
                 ("http://localhost:8080/auth", HttpMethod.POST, requestEntity, AuthenticationResponse.class);
 
 
-        assertThat(true, is(loginResponse.getBody().getData().isSuccess()));
-        assertThat("You have login successfully", is(loginResponse.getBody().getData().getMessage()));
-        assertThat("test", is(loginResponse.getBody().getData().getData().getUsername()));
+        assertThat(true, is(loginResponse.getBody().getContents().isSuccess()));
+        assertThat("You have login successfully", is(loginResponse.getBody().getContents().getMessage()));
+        assertThat("test", is(loginResponse.getBody().getContents().getData().getUsername()));
     }
 }

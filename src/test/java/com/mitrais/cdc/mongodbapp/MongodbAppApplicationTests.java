@@ -49,6 +49,7 @@ public class MongodbAppApplicationTests {
     private final String USERNAME_FOR_ID_5d22a9d168ed663ca092a574 = "user1";
     private final String ROLE_FOR_ID_5d22a9d168ed663ca092a574 = "ROLE_USER";
     private final String ID = "5d22a9d168ed663ca092a574";
+    private final String USERNAME = "user1";
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
@@ -93,7 +94,7 @@ public class MongodbAppApplicationTests {
     @Test
     public void UpdateUserData() throws Exception{
 
-        User user = new User("user1", "user999", true, "ROLE_USER");
+        User user = new User("user1", "user999", true, "ROLE_USER", "srf.hidayat@gmail.com");
         String userJson = mapper.writeValueAsString(user);
 
         MockHttpServletRequestBuilder builder =
@@ -127,6 +128,16 @@ public class MongodbAppApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$['contents']['data']['username']", containsString(USERNAME_FOR_ID_5d22a9d168ed663ca092a574)));
+
+    }
+
+    @Test
+    public void findUserByUsername() throws Exception{
+
+        mockMvc.perform(get("/find-user-by-username/"+USERNAME))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$['contents']['data']['role']", containsString(ROLE_FOR_ID_5d22a9d168ed663ca092a574)));
 
     }
 

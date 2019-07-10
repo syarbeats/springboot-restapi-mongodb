@@ -8,5 +8,5 @@ import lombok.Setter;
 public class AuthenticationResponse {
 
     public String Message;
-    public AuthenticationPayload Data;
+    public AuthenticationPayload Contents;
 }

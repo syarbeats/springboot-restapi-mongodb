@@ -19,6 +19,7 @@ public class UserService {
     public APIResponse UserRegistration(User user){
 
         try{
+            user.setEnabled(false);
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
             return new APIResponse(true,"User has been registered successfully", userRepository.save(user));
         }catch (Exception e){
@@ -137,5 +138,13 @@ public class UserService {
         }
 
         return new APIResponse(false, "Data was not found", null);
+    }
+
+    public APIResponse ActivateUser(String username){
+
+        User user = userRepository.findByUsername(username);
+        user.setEnabled(true);
+        User userData = userRepository.save(user);
+        return new APIResponse(true, "User has been activated", userData);
     }
 }

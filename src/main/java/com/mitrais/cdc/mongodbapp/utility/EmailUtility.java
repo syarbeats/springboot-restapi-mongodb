@@ -19,7 +19,7 @@ public class EmailUtility {
 
     private User user;
 
-    public boolean sendEmail (String email, String token, String username) {
+    public boolean sendEmail (String email, String token, String username, String contents) {
         log.info("Inside sendEmail1");
         Map<String, String> data = new HashMap<String, String>();
         data.put("email", email);
@@ -27,7 +27,7 @@ public class EmailUtility {
         data.put("username", username);
 
         try {
-            if(sendEmail(data)) {
+            if(sendEmail(data, contents)) {
                 return true;
             }else {
                 return false;
@@ -39,14 +39,14 @@ public class EmailUtility {
         return false;
     }
 
-    public boolean sendEmail(User user, String token) {
+    public boolean sendEmail(User user, String token, String contents) {
 
         Map<String, String> data = new HashMap<String, String>();
         data.put("email", user.getEmail());
         data.put("token", token);
 
         try {
-            if(sendEmail(data)) {
+            if(sendEmail(data, contents)) {
                 return true;
             }else {
                 return false;
@@ -58,7 +58,7 @@ public class EmailUtility {
         return false;
     }
 
-    public boolean sendEmail(Map<String, String> data) throws AddressException, MessagingException, IOException {
+    public boolean sendEmail(Map<String, String> data, String contents) throws AddressException, MessagingException, IOException {
 
         log.info("Inside sendEmail2");
         String token = data.get("token");
@@ -91,7 +91,7 @@ public class EmailUtility {
             message.setSentDate(new Date());
 
             MimeBodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setContent("Please klik the following link to reset your password, <br/> <a href = \"http://localhost:3000/reset?token=" +token+"&username="+username+"\">Reset Password</a>", "text/html");
+            messageBodyPart.setContent(contents, "text/html");
 
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
