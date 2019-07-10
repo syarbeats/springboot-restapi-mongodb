@@ -5,9 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ResponseEntityCustom {
-
-    /*private Contents contents;*/
-    private ContentsPayload contents;
+public class ResponseEntityCustomV2 {
+    private Contents contents;
     private String message;
 }
