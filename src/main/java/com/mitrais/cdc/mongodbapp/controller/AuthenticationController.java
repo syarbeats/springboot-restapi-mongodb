@@ -23,7 +23,7 @@ public class AuthenticationController {
         log.info("Authentication Process....");
         Map<Object, Object> map = new HashMap<>();
         map.put("Message", "Login Testing");
-        map.put("Data", authenticationService.login(userLogin));
+        map.put("Contents", authenticationService.login(userLogin));
 
         return ResponseEntity.ok(map);
     }
