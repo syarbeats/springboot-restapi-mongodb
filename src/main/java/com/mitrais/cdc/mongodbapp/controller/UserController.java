@@ -2,6 +2,8 @@ package com.mitrais.cdc.mongodbapp.controller;
 
 import com.mitrais.cdc.mongodbapp.model.User;
 import com.mitrais.cdc.mongodbapp.payload.APIResponse;
+import com.mitrais.cdc.mongodbapp.payload.NewPasswordPayload;
+import com.mitrais.cdc.mongodbapp.payload.ResetPasswordPayload;
 import com.mitrais.cdc.mongodbapp.service.UserService;
 import com.mitrais.cdc.mongodbapp.utility.EmailUtility;
 import com.mitrais.cdc.mongodbapp.utility.Utility;
@@ -78,20 +80,25 @@ public class UserController {
         return ResponseEntity.ok(new Utility("Find User Data", userService.GetAllUsers()).getResponseData());
     }
 
-    @RequestMapping(value="/resetpassword", method = RequestMethod.GET)
-    public ResponseEntity ResetPassword(HttpServletRequest request){
+    /**
+     * url to handle reset password request, this api will send email that contain link to reset the password
+     * */
+    @RequestMapping(value="/resetpassword", method = RequestMethod.POST)
+    /*public ResponseEntity ResetPasswordRequest(HttpServletRequest request){*/
+    public ResponseEntity ResetPasswordRequest(@RequestBody ResetPasswordPayload request){
 
-        String email = request.getParameter("email");
+        /*String email = request.getParameter("email");*/
+        String email = request.getEmail();
         User user = userService.FindUserByEmail(email);
+        String encodedUsername = new String(Base64.encodeBase64(user.getUsername().getBytes()));
+        String contents = "Please klik the following link to reset your password, <br/> <a href = \"http://localhost:3000/reset?id=" +encodedUsername+"\">Reset Password</a>";
 
         if(user == null){
             return ResponseEntity.ok(new Utility("User data not found", null).getResponseData());
         }
 
-        String encodedUsername = new String(DatatypeConverter.parseBase64Binary(user.getUsername()));
-
         try {
-            emailUtility.sendEmail(email, encodedUsername, user.getUsername(), "", "");
+            emailUtility.sendEmail(email, encodedUsername, user.getUsername(), contents, "[OneStopClick-Admin] Your password reset request");
             return ResponseEntity.ok(new Utility("Check your email to reset your password", user).getResponseData());
 
         }catch(Exception e) {
@@ -100,6 +107,17 @@ public class UserController {
         }
         return ResponseEntity.ok(new Utility("Sending email to reset password was failed", user).getResponseData());
 
+    }
+
+    @RequestMapping(value="/reset", method = RequestMethod.POST)
+    public ResponseEntity ResetPassword(@RequestBody NewPasswordPayload password){
+
+        try{
+            return ResponseEntity.ok(new Utility("Change password process have done successfully", userService.ResetPassword(new String(Base64.decodeBase64(password.getId().getBytes())), password.getPassword())).getResponseData());
+        }catch (Exception e){
+
+        }
+        return ResponseEntity.ok(new Utility("Change password process was failed", new String(Base64.decodeBase64(password.getId().getBytes()))).getResponseData());
     }
 
     @RequestMapping(value="/activate", method = RequestMethod.GET)

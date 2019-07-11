@@ -52,11 +52,12 @@ public class UserService {
         return new APIResponse(false, "Update user data was failed", null);
     }
 
-    public APIResponse ResetPassword(User user){
+    public APIResponse ResetPassword(String username, String password){
 
         try{
-            User userData = userRepository.findByUsername(user.getUsername());
-            userData.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+            log.info("USERNAME THAT WANT TO CHANGE HIS PASSWORD:", username);
+            User userData = userRepository.findByUsername(username);
+            userData.setPassword(new BCryptPasswordEncoder().encode(password));
             return new APIResponse(true, "Update user password has been updated successfully", userRepository.save(userData));
         }catch (Exception e){
             log.info(e.getMessage(), e);

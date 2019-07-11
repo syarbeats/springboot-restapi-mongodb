@@ -60,6 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers( "/activate").permitAll()
                 .antMatchers("/register").permitAll()
+                .antMatchers("/resetpassword").permitAll()
+                .antMatchers("/reset").permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 .and().sessionManagement().disable();
