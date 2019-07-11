@@ -19,6 +19,7 @@ import javax.xml.bind.DatatypeConverter;
 
 @Slf4j
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
@@ -33,7 +34,7 @@ public class UserController {
 
         if(response.isSuccess()){
             String bytesEncoded = new String(Base64.encodeBase64(user.getUsername().getBytes()));
-            String contents = "Please klik the following link to activate your account, <br/> <a href = \"http://localhost:8080/activate?id=" +bytesEncoded+"\">Activate Account</a>";
+            String contents = "Please klik the following link to activate your account, <br/> <a href = \"http://localhost:8080/api/activate?id=" +bytesEncoded+"\">Activate Account</a>";
 
             try {
                 log.info("username--:"+ user.getUsername());

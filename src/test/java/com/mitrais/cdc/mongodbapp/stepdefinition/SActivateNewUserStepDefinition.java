@@ -26,7 +26,7 @@ public class SActivateNewUserStepDefinition {
     public void new_user_with_username_test_with_password_test_has_been_registered_successfully(String username, String password) {
         restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("admin", "admin123"));
         ResponseEntity<ResponseEntityCustomV2> response = restTemplate.exchange
-                ("http://localhost:8080/find-user-by-username/"+username, HttpMethod.GET, null, ResponseEntityCustomV2.class);
+                ("http://localhost:8080/api/find-user-by-username/"+username, HttpMethod.GET, null, ResponseEntityCustomV2.class);
 
         assertThat(true, is(response.getBody().getContents().isSuccess()));
         assertThat("User data was found", is(response.getBody().getContents().getMessage()));
@@ -39,7 +39,7 @@ public class SActivateNewUserStepDefinition {
         String id = "dGVzdA==";
         restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("admin", "admin123"));
         ResponseEntity<ActivatePayload> response = restTemplate.exchange
-                ("http://localhost:8080/activate?id="+id, HttpMethod.GET, null, ActivatePayload.class);
+                ("http://localhost:8080/api/activate?id="+id, HttpMethod.GET, null, ActivatePayload.class);
 
         assertThat("test", is(response.getBody().getContents()));
         assertThat("Your account has been activated", is(response.getBody().getMessage()));
@@ -57,7 +57,7 @@ public class SActivateNewUserStepDefinition {
         HttpEntity<UserLogin> requestEntity = new HttpEntity<>(user, requestHeaders);
 
         ResponseEntity<AuthenticationResponse> loginResponse = restTemplate.exchange
-                    ("http://localhost:8080/auth", HttpMethod.POST, requestEntity, AuthenticationResponse.class);
+                    ("http://localhost:8080/api/auth", HttpMethod.POST, requestEntity, AuthenticationResponse.class);
 
 
         assertThat(true, is(loginResponse.getBody().getContents().isSuccess()));
