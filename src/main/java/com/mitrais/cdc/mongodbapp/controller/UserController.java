@@ -5,7 +5,6 @@ import com.mitrais.cdc.mongodbapp.payload.APIResponse;
 import com.mitrais.cdc.mongodbapp.payload.Token;
 import com.mitrais.cdc.mongodbapp.service.UserService;
 import com.mitrais.cdc.mongodbapp.utility.EmailUtility;
-import com.mitrais.cdc.mongodbapp.utility.TokenUtility;
 import com.mitrais.cdc.mongodbapp.utility.Utility;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -29,15 +26,11 @@ public class UserController {
     @Autowired
     EmailUtility emailUtility;
 
-    @Autowired
-    TokenUtility tokenUtility;
-
     @RequestMapping(value="/register", method = RequestMethod.POST)
     public ResponseEntity UserRegister(@RequestBody User user){
         APIResponse response = userService.UserRegistration(user);
 
         if(response.isSuccess()){
-            //String token = tokenUtility.createToken(user.getUsername(), user.getRole());
             String bytesEncoded = new String(Base64.encodeBase64(user.getUsername().getBytes()));
             String contents = "Please klik the following link to activate your account, <br/> <a href = \"http://localhost:8080/activate?id=" +bytesEncoded+"\">Activate Account</a>";
 
@@ -45,7 +38,7 @@ public class UserController {
                 log.info("username--:"+ user.getUsername());
                 log.info("role--:"+ user.getRole());
                 log.info("token--:"+ bytesEncoded);
-                emailUtility.sendEmail(user.getEmail(), bytesEncoded, user.getUsername(), contents);
+                emailUtility.sendEmail(user.getEmail(), bytesEncoded, user.getUsername(), contents, "[OneStopClick-Admin] Please Activate Your Account !!");
                 return ResponseEntity.ok(new Utility("Check your email to activate your account", user).getResponseData());
 
             }catch(Exception e) {
@@ -99,7 +92,7 @@ public class UserController {
         String encodedUsername = new String(DatatypeConverter.parseBase64Binary(user.getUsername()));
 
         try {
-            emailUtility.sendEmail(email, encodedUsername, user.getUsername(), "");
+            emailUtility.sendEmail(email, encodedUsername, user.getUsername(), "", "");
             return ResponseEntity.ok(new Utility("Check your email to reset your password", user).getResponseData());
 
         }catch(Exception e) {
@@ -110,10 +103,11 @@ public class UserController {
 
     }
 
-    @RequestMapping(value="/update-user", method = RequestMethod.POST)
-    public ResponseEntity ActivateUser(@RequestBody Token id){
+    @RequestMapping(value="/activate", method = RequestMethod.GET)
+    public ResponseEntity ActivateUser(@RequestParam("id") String id){
 
-        byte[] usernameDecoded = Base64.decodeBase64(id.getToken().getBytes());
+        //byte[] usernameDecoded = Base64.decodeBase64(id.getToken().getBytes());
+        byte[] usernameDecoded = Base64.decodeBase64(id.getBytes());
         String username = new String(usernameDecoded);
         log.info("USERNAME", username);
         APIResponse response = userService.ActivateUser(username);

@@ -1,8 +1,6 @@
 package com.mitrais.cdc.mongodbapp.config;
 
-import com.mitrais.cdc.mongodbapp.payload.Token;
 import com.mitrais.cdc.mongodbapp.utility.EmailUtility;
-import com.mitrais.cdc.mongodbapp.utility.TokenUtility;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

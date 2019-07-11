@@ -15,6 +15,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 
 import org.springframework.http.*;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.xml.bind.DatatypeConverter;
@@ -79,21 +80,28 @@ public class TestAPIStepDefinition {
     public void user_test_with_password_test_can_invoke_login_APi_successfully(String username, String password) {
 
         /*
-        * Need to invoke update-user api to enabled new user account 
+        * New User cannot login before his account activated
         ****/
 
-        /*UserLogin user = new UserLogin(username, password);
+        UserLogin user = new UserLogin(username, password);
         String authorizationHeader = "Basic " + DatatypeConverter.printBase64Binary((username + ":" + password).getBytes());
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
         requestHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         requestHeaders.add("Authorization", authorizationHeader);
         HttpEntity<UserLogin> requestEntity = new HttpEntity<>(user, requestHeaders);
-        ResponseEntity<AuthenticationResponse> loginResponse = restTemplate.exchange
-                ("http://localhost:8080/auth", HttpMethod.POST, requestEntity, AuthenticationResponse.class);
+
+        try{
+            ResponseEntity<AuthenticationResponse> loginResponse = restTemplate.exchange
+                    ("http://localhost:8080/auth", HttpMethod.POST, requestEntity, AuthenticationResponse.class);
+
+        }catch (HttpClientErrorException e){
+            System.out.println("Error:"+e.getStatusCode().toString());
+            assertThat("401 UNAUTHORIZED", is( e.getStatusCode().toString()));
+        }
 
 
-        assertThat(true, is(loginResponse.getBody().getContents().isSuccess()));
+       /* assertThat(true, is(loginResponse.getBody().getContents().isSuccess()));
         assertThat("You have login successfully", is(loginResponse.getBody().getContents().getMessage()));
         assertThat("test", is(loginResponse.getBody().getContents().getData().getUsername()));*/
     }

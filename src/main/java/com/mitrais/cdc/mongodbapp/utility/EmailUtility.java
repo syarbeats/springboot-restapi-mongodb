@@ -19,12 +19,13 @@ public class EmailUtility {
 
     private User user;
 
-    public boolean sendEmail (String email, String token, String username, String contents) {
+    public boolean sendEmail (String email, String token, String username, String contents, String subject) {
         log.info("Inside sendEmail1");
         Map<String, String> data = new HashMap<String, String>();
         data.put("email", email);
         data.put("token", token);
         data.put("username", username);
+        data.put("subject", subject);
 
         try {
             if(sendEmail(data, contents)) {
@@ -45,6 +46,7 @@ public class EmailUtility {
         data.put("email", user.getEmail());
         data.put("token", token);
 
+
         try {
             if(sendEmail(data, contents)) {
                 return true;
@@ -64,6 +66,7 @@ public class EmailUtility {
         String token = data.get("token");
         String email = data.get("email");
         String username = data.get("username");
+        String subject = data.get("subject");
 
         try {
             log.info("Token-Inside sendEmail2: "+token);
@@ -86,8 +89,8 @@ public class EmailUtility {
             message.setFrom(new InternetAddress("admin@onestopclick.com", false));
 
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("[OneStopClick-Admin] Your password reset request");
-            message.setContent("[OneStopClick-Admin] Your password reset request", "text/html");
+            message.setSubject(subject);
+            message.setContent(subject, "text/html");
             message.setSentDate(new Date());
 
             MimeBodyPart messageBodyPart = new MimeBodyPart();
