@@ -9,6 +9,11 @@ You can set this Authentication on the fly with remove apikey at SecurityConfigu
 4. MockMVC for Integration testing
 5. Cucumber & JUnit for High Level's Like Integration Testing
 
+### Workflow
+
+<img width="512" alt="flow" src="https://user-images.githubusercontent.com/18225438/61030681-1c0f0f80-a3e8-11e9-9322-e65e298b26d7.PNG">
+
+
 ### Swagger-ui Screenshoot
 
 <img width="701" alt="Swagger" src="https://user-images.githubusercontent.com/18225438/61028534-19f68200-a3e3-11e9-9022-0fd4eb3566d6.PNG">
