@@ -16,5 +16,4 @@ You can set this Authentication on the fly with remove apikey at SecurityConfigu
 
 ### Swagger-ui Screenshoot
 
-<img width="701" alt="Swagger" src="https://user-images.githubusercontent.com/18225438/61028534-19f68200-a3e3-11e9-9022-0fd4eb3566d6.PNG">
-
+<img width="685" alt="Swagger1" src="https://user-images.githubusercontent.com/18225438/61031255-4f05d300-a3e9-11e9-8e19-3340ab44e581.PNG">
