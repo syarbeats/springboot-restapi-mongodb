@@ -25,7 +25,7 @@ import java.util.Arrays;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class TestAPIStepDefinition {
+public class RegisterNewUserStepDefinition {
 
     private final String USERNAME_FOR_ID_5d22a9d168ed663ca092a574 = "user1";
     private final String ROLE_FOR_ID_5d22a9d168ed663ca092a574 = "ROLE_USER";
@@ -76,7 +76,7 @@ public class TestAPIStepDefinition {
         assertThat("ROLE_ADMIN", is(response.getBody().getContents().getData().getRole()));
     }
 
-    @Then("user (.*) with password (.*) can invoke login APi successfully")
+    @Then("user (.*) with password (.*) cannot login successfully")
     public void user_test_with_password_test_can_invoke_login_APi_successfully(String username, String password) {
 
         /*

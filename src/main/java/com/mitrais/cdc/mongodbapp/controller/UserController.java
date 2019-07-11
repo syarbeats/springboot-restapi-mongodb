@@ -2,7 +2,6 @@ package com.mitrais.cdc.mongodbapp.controller;
 
 import com.mitrais.cdc.mongodbapp.model.User;
 import com.mitrais.cdc.mongodbapp.payload.APIResponse;
-import com.mitrais.cdc.mongodbapp.payload.Token;
 import com.mitrais.cdc.mongodbapp.service.UserService;
 import com.mitrais.cdc.mongodbapp.utility.EmailUtility;
 import com.mitrais.cdc.mongodbapp.utility.Utility;

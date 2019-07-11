@@ -5,6 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Token {
-    private String token;
+public class ActivatePayload {
+
+    private String contents;
+    private String message;
 }
