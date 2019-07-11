@@ -78,17 +78,17 @@ public class MongodbAppApplicationTests {
 
     @Test
     public void userRegistration() throws Exception{
-        User user = new User("arkhyterima", "pass123", true, "ROLE_USER");
+        User user = new User("arkhyterima", "pass123", true, "ROLE_USER", "srf.hidayat@gmail.com");
         String userJson = mapper.writeValueAsString(user);
 
-        mockMvc.perform(post("/register")
+        mockMvc.perform(post("/api/register")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(userJson)
                             .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$['contents']['message']", containsString("User has been registered successfully")))
-                .andExpect(jsonPath("$['contents']['data']['username']", containsString("arkhyterima")))
-                .andExpect(jsonPath("$['contents']['data']['role']", containsString("ROLE_USER")));
+                .andExpect(jsonPath("$['message']", containsString("Check your email to activate your account")))
+                .andExpect(jsonPath("$['contents']['username']", containsString("arkhyterima")))
+                .andExpect(jsonPath("$['contents']['role']", containsString("ROLE_USER")));
     }
 
     @Test
@@ -98,7 +98,7 @@ public class MongodbAppApplicationTests {
         String userJson = mapper.writeValueAsString(user);
 
         MockHttpServletRequestBuilder builder =
-                MockMvcRequestBuilders.patch("/update/user")
+                MockMvcRequestBuilders.patch("/api/update/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson)
                         .accept(MediaType.APPLICATION_JSON);
@@ -113,7 +113,7 @@ public class MongodbAppApplicationTests {
     @Test
     public void deleteUserByUsername() throws Exception{
         String username = "arkhyterima";
-        mockMvc.perform(delete("/delete/user/"+username))
+        mockMvc.perform(delete("/api/delete/user/"+username))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$['contents']['message']", containsString("Delete user data has been executed successfully")))
                 .andExpect(jsonPath("$['contents']['data']", containsString("arkhyterima")));
@@ -124,7 +124,7 @@ public class MongodbAppApplicationTests {
     @Test
     public void findUserByID() throws Exception{
 
-        mockMvc.perform(get("/find/user/"+ID))
+        mockMvc.perform(get("/api/find/user/"+ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$['contents']['data']['username']", containsString(USERNAME_FOR_ID_5d22a9d168ed663ca092a574)));
@@ -134,7 +134,7 @@ public class MongodbAppApplicationTests {
     @Test
     public void findUserByUsername() throws Exception{
 
-        mockMvc.perform(get("/find-user-by-username/"+USERNAME))
+        mockMvc.perform(get("/api/find-user-by-username/"+USERNAME))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$['contents']['data']['role']", containsString(ROLE_FOR_ID_5d22a9d168ed663ca092a574)));
@@ -144,7 +144,7 @@ public class MongodbAppApplicationTests {
     @Test
     public void getAllUsers() throws Exception{
 
-        mockMvc.perform(get("/all-users/"))
+        mockMvc.perform(get("/api/all-users/"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$['contents']['message']", containsString("Users data was founds")))
