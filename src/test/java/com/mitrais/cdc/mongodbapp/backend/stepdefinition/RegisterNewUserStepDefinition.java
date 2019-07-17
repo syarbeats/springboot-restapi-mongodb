@@ -1,4 +1,4 @@
-package com.mitrais.cdc.mongodbapp.stepdefinition;
+package com.mitrais.cdc.mongodbapp.backend.stepdefinition;
 
 
 import com.mitrais.cdc.mongodbapp.model.User;
@@ -61,7 +61,7 @@ public class RegisterNewUserStepDefinition {
         //assertThat(true, is(postResponse.getBody().getContents().isSuccess()));
         assertThat("Check your email to activate your account", is(postResponse.getBody().getMessage()));
         assertThat("test", is(postResponse.getBody().getContents().getUsername()));
-        assertThat("ROLE_ADMIN", is(postResponse.getBody().getContents().getRole()));
+        assertThat("ROLE_USER", is(postResponse.getBody().getContents().getRole()));
     }
 
     @Then("We can populate data for username (.*) using find-user-by-username api")
@@ -73,7 +73,7 @@ public class RegisterNewUserStepDefinition {
         assertThat(true, is(response.getBody().getContents().isSuccess()));
         assertThat("User data was found", is(response.getBody().getContents().getMessage()));
         assertThat("test", is(response.getBody().getContents().getData().getUsername()));
-        assertThat("ROLE_ADMIN", is(response.getBody().getContents().getData().getRole()));
+        assertThat("ROLE_USER", is(response.getBody().getContents().getData().getRole()));
     }
 
     @Then("user (.*) with password (.*) cannot login successfully")

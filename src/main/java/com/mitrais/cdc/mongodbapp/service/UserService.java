@@ -19,6 +19,7 @@ public class UserService {
     public APIResponse UserRegistration(User user){
 
         try{
+            user.setRole("ROLE_USER");
             user.setEnabled(false);
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
             return new APIResponse(true,"User has been registered successfully", userRepository.save(user));

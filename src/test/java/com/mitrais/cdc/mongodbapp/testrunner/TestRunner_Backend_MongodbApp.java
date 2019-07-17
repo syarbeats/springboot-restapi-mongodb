@@ -5,6 +5,6 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features= "features", glue= "com.mitrais.cdc.mongodbapp.stepdefinition")
-public class TestRunner_MongodbApp {
+@CucumberOptions(features= "features/backend", glue= "com.mitrais.cdc.mongodbapp.backend.stepdefinition")
+public class TestRunner_Backend_MongodbApp {
 }

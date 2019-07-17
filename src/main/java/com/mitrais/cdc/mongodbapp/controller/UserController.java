@@ -20,7 +20,7 @@ import javax.xml.bind.DatatypeConverter;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class UserController extends CrossOriginController{
 
     @Autowired
     UserService userService;
@@ -40,7 +40,7 @@ public class UserController {
                 log.info("username--:"+ user.getUsername());
                 log.info("role--:"+ user.getRole());
                 log.info("token--:"+ bytesEncoded);
-                emailUtility.sendEmail(user.getEmail(), bytesEncoded, user.getUsername(), contents, "[OneStopClick-Admin] Please Activate Your Account !!");
+                emailUtility.sendEmail(user.getEmail(), bytesEncoded, user.getUsername(), contents, "[MongoDb-Admin] Please Activate Your Account !!");
                 return ResponseEntity.ok(new Utility("Check your email to activate your account", user).getResponseData());
 
             }catch(Exception e) {
@@ -92,14 +92,14 @@ public class UserController {
         String email = request.getEmail();
         User user = userService.FindUserByEmail(email);
         String encodedUsername = new String(Base64.encodeBase64(user.getUsername().getBytes()));
-        String contents = "Please klik the following link to reset your password, <br/> <a href = \"http://localhost:3000/reset?id=" +encodedUsername+"\">Reset Password</a>";
+        String contents = "Please klik the following link to reset your password, <br/> <a href = \"http://localhost:3000/resetpassword?id=" +encodedUsername+"\">Reset Password</a>";
 
         if(user == null){
             return ResponseEntity.ok(new Utility("User data not found", null).getResponseData());
         }
 
         try {
-            emailUtility.sendEmail(email, encodedUsername, user.getUsername(), contents, "[OneStopClick-Admin] Your password reset request");
+            emailUtility.sendEmail(email, encodedUsername, user.getUsername(), contents, "[MongoDb-Admin] Your password reset request");
             return ResponseEntity.ok(new Utility("Check your email to reset your password", user).getResponseData());
 
         }catch(Exception e) {

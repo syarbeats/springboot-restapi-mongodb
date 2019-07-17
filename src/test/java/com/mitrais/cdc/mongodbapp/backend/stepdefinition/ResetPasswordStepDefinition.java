@@ -1,4 +1,4 @@
-package com.mitrais.cdc.mongodbapp.stepdefinition;
+package com.mitrais.cdc.mongodbapp.backend.stepdefinition;
 
 import com.mitrais.cdc.mongodbapp.payload.AuthenticationResponse;
 import com.mitrais.cdc.mongodbapp.payload.NewPasswordPayload;

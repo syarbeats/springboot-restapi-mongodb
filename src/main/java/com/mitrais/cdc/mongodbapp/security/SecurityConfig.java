@@ -56,6 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers( "/api/activate").permitAll()
@@ -64,8 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/reset").permitAll()
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
-                .and().httpBasic()
-                .and().sessionManagement().disable();
+                .and().httpBasic();
     }
 
 }

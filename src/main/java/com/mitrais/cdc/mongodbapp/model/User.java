@@ -17,6 +17,8 @@ public class User {
     public boolean enabled;
     public String role;
     public String email;
+    public String firstname;
+    public String lastname;
 
 
    /* public User(ObjectId _id, String username, String password, boolean enabled, String role) {
@@ -44,6 +46,16 @@ public class User {
         this.enabled = enabled;
         this.role = role;
         this.email = email;
+    }
+
+    public User(String username, String password, boolean enabled, String role, String email, String firstname, String lastname) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.role = role;
+        this.email = email;
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
    /* public String get_id() {

@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class EmployeeController {
+public class EmployeeController extends CrossOriginController{
 
     @Autowired
     IEmployeeRepository employeeRepository;

@@ -13,12 +13,12 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/api")
-public class AuthenticationController {
+public class AuthenticationController extends CrossOriginController{
 
     @Autowired
     AuthenticationService authenticationService;
 
-    @RequestMapping(value = "/auth", method= RequestMethod.POST)
+    @RequestMapping(value =  "/auth", method= RequestMethod.POST)
     public ResponseEntity login(@RequestBody UserLogin userLogin){
 
         log.info("Authentication Process....");
