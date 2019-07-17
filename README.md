@@ -8,6 +8,8 @@ You can set this Authentication on the fly with remove apikey at SecurityConfigu
 3. Swagger-ui
 4. MockMVC for Integration testing
 5. Cucumber & JUnit for High Level's Like Integration Testing
+6. Cucumber for Frontend High Level Testing (Frontend: https://github.com/syarbeats/react-frontend-login-register.git)
+7. Chrome Webdriver
 
 ### Workflow
 
