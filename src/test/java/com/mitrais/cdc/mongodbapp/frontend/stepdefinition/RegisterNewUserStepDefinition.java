@@ -27,7 +27,7 @@ public class RegisterNewUserStepDefinition {
         System.out.println("Path:"+System.getProperty("webdriver.chrome.driver"));
         webDriver = new ChromeDriver();
 
-        webDriver.get("http://localhost:3000/mongodb-app/user/register");
+        webDriver.get("http://localhost:3000/user/register");
         webDriver.findElement(By.xpath("//*[@name='username']")).sendKeys(username);
         webDriver.findElement(By.xpath("//*[@name='password']")).sendKeys(password);
         webDriver.findElement(By.xpath("//*[@name='email']")).sendKeys(email);
@@ -51,7 +51,7 @@ public class RegisterNewUserStepDefinition {
         System.out.println("Path:"+System.getProperty("webdriver.chrome.driver"));
         webDriver = new ChromeDriver();
 
-        webDriver.get("http://localhost:3000/mongodb-app/login");
+        webDriver.get("http://localhost:3000/login");
         webDriver.findElement(By.xpath("//*[@name='username']")).sendKeys("admin");
         webDriver.findElement(By.xpath("//*[@name='password']")).sendKeys("admin123");
         webDriver.findElement(By.xpath("//*[@id='login']")).click();
@@ -74,7 +74,7 @@ public class RegisterNewUserStepDefinition {
         System.out.println("Path:"+System.getProperty("webdriver.chrome.driver"));
         webDriver = new ChromeDriver();
 
-        webDriver.get("http://localhost:3000/mongodb-app/login");
+        webDriver.get("http://localhost:3000/login");
         webDriver.findElement(By.xpath("//*[@name='username']")).sendKeys(username);
         webDriver.findElement(By.xpath("//*[@name='password']")).sendKeys(password);
         webDriver.findElement(By.xpath("//*[@id='login']")).click();
