@@ -1,6 +1,6 @@
 # Simple Springboot Rest API with Basic Authention and MongoDB as Database Provider 
-This project used Swagger-ui to manage API list with its basic authentication hardcoded in SwaggerConfig bean.
-You can set this Authentication on the fly with remove apikey at SecurityConfiguration Bean in SwaggerConfig bean.
+This project used Swagger-ui to manage API list with its basic authentication hardcoded (admin:admin123) in SwaggerConfig bean.
+You can set this Authentication on the fly by remove apikey at SecurityConfiguration in SwaggerConfig bean. Don't forget to register user with username admin, with password admin123 firstly in frontend application. This account will be used by swagger-ui authentication (harcodded in SwaggerConfig Bean), you can change swagger-ui authentication as you wish.
 
 ## The Stacks:
 1. Springboot 2.1.6
