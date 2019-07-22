@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/register*").permitAll()
                 .antMatchers("/api/resetpassword*").permitAll()
                 .antMatchers("/api/reset*").permitAll()
-                .antMatchers("/mongodb-app/api/register","/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
+                .antMatchers("/api/register","/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic();
 

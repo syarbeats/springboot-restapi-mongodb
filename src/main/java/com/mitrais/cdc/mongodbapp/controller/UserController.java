@@ -137,4 +137,11 @@ public class UserController extends CrossOriginController{
 
         return ResponseEntity.ok(new Utility("User activated was failed", null).getResponseData());
     }
+
+    @RequestMapping(value="/test", method = RequestMethod.GET)
+    public String Test(){
+        String user = "admin:admin123";
+        String bytesEncoded = new String(Base64.encodeBase64(user.getBytes()));
+        return bytesEncoded;
+    }
 }
