@@ -30,6 +30,11 @@ public class UserController extends CrossOriginController{
 
     @RequestMapping(value="/register", method = RequestMethod.POST)
     public ResponseEntity UserRegister(@RequestBody User user){
+
+        if(userService.FindUserByUsername(user.getUsername()).getMessage().equals("User data was found")){
+            return ResponseEntity.ok(new Utility("Your username is not available, please find the new one", user).getResponseData());
+        }
+
         APIResponse response = userService.UserRegistration(user);
 
         if(response.isSuccess()){
