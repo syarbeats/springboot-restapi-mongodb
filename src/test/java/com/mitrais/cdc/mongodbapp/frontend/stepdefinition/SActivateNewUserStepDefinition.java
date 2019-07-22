@@ -49,7 +49,7 @@ public class SActivateNewUserStepDefinition {
         System.setProperty("webdriver.chrome.driver", "C:\\chromedriver_win32\\chromedriver.exe");
 
         webDriver = new ChromeDriver();
-        webDriver.get("http://localhost:8080/api/activate?id="+userEncoded);
+        webDriver.get("http://localhost:8080/mongodb-app/api/activate?id="+userEncoded);
 
     }
 

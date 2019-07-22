@@ -52,7 +52,7 @@ public class RegisterNewUserStepDefinition {
         requestHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<User> requestEntity = new HttpEntity<>(user, requestHeaders);
         postResponse = restTemplate.exchange
-                ("http://localhost:8080/api/register", HttpMethod.POST, requestEntity, ResponseEntityCustom.class);
+                ("http://localhost:8080/mongodb-app/api/register", HttpMethod.POST, requestEntity, ResponseEntityCustom.class);
 
     }
 
@@ -68,7 +68,7 @@ public class RegisterNewUserStepDefinition {
     public void we_can_populate_data_for_username_test_using_find_user_by_username_api(String username) {
         restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("admin", "admin123"));
         ResponseEntity<ResponseEntityCustomV2> response = restTemplate.exchange
-                ("http://localhost:8080/api/find-user-by-username/"+username, HttpMethod.GET, null, ResponseEntityCustomV2.class);
+                ("http://localhost:8080/mongodb-app/api/find-user-by-username/"+username, HttpMethod.GET, null, ResponseEntityCustomV2.class);
 
         assertThat(true, is(response.getBody().getContents().isSuccess()));
         assertThat("User data was found", is(response.getBody().getContents().getMessage()));
@@ -93,7 +93,7 @@ public class RegisterNewUserStepDefinition {
 
         try{
             ResponseEntity<AuthenticationResponse> loginResponse = restTemplate.exchange
-                    ("http://localhost:8080/api/auth", HttpMethod.POST, requestEntity, AuthenticationResponse.class);
+                    ("http://localhost:8080/mongodb-app/api/auth", HttpMethod.POST, requestEntity, AuthenticationResponse.class);
 
         }catch (HttpClientErrorException e){
             System.out.println("Error:"+e.getStatusCode().toString());

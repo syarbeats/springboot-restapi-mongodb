@@ -34,7 +34,7 @@ public class UserController extends CrossOriginController{
 
         if(response.isSuccess()){
             String bytesEncoded = new String(Base64.encodeBase64(user.getUsername().getBytes()));
-            String contents = "Please klik the following link to activate your account, <br/> <a href = \"http://128.199.158.139:8080/api/activate?id=" +bytesEncoded+"\">Activate Account</a>";
+            String contents = "Please klik the following link to activate your account, <br/> <a href = \"http://localhost:8080/mongodb-app/api/activate?id=" +bytesEncoded+"\">Activate Account</a>";
 
             try {
                 log.info("username--:"+ user.getUsername());
@@ -92,7 +92,7 @@ public class UserController extends CrossOriginController{
         String email = request.getEmail();
         User user = userService.FindUserByEmail(email);
         String encodedUsername = new String(Base64.encodeBase64(user.getUsername().getBytes()));
-        String contents = "Please klik the following link to reset your password, <br/> <a href = \"http://128.199.158.139:3000/resetpassword?id=" +encodedUsername+"\">Reset Password</a>";
+        String contents = "Please klik the following link to reset your password, <br/> <a href = \"http://localhost:3000/resetpassword?id=" +encodedUsername+"\">Reset Password</a>";
 
         if(user == null){
             return ResponseEntity.ok(new Utility("User data not found", null).getResponseData());

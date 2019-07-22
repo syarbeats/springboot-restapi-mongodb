@@ -47,26 +47,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        /*http
-                .csrf().disable()
-                .authorizeRequests().anyRequest().authenticated()
-                .antMatchers("/register").permitAll()
-                .and().httpBasic()
-                .and().sessionManagement().disable();*/
-
         http
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers( "/api/activate").permitAll()
-                .antMatchers("/api/register").permitAll()
-                .antMatchers("/api/resetpassword").permitAll()
-                .antMatchers("/api/reset").permitAll()
-                .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
+                .antMatchers("/api/activate*").permitAll()
+                .antMatchers("/api/register*").permitAll()
+                .antMatchers("/api/resetpassword*").permitAll()
+                .antMatchers("/api/reset*").permitAll()
+                .antMatchers("/mongodb-app/api/register","/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic();
+
+
     }
 
 }

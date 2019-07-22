@@ -12,6 +12,7 @@
     <artifactId>mongodb-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mongodb-app</name>
+    <packaging>war</packaging>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -146,10 +147,15 @@
             <artifactId>guava</artifactId>
             <version>27.1-jre</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
+        <finalName>mongodb-app</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

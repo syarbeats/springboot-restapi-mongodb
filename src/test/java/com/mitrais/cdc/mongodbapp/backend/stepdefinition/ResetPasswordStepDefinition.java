@@ -25,7 +25,7 @@ public class ResetPasswordStepDefinition {
     public void user_with_username_user_with_password_test_want_to_change_his_password(String username, String password) {
         restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("admin", "admin123"));
         ResponseEntity<ResponseEntityCustomV2> response = restTemplate.exchange
-                ("http://localhost:8080/api/find-user-by-username/"+username, HttpMethod.GET, null, ResponseEntityCustomV2.class);
+                ("http://localhost:8080/mongodb-app/api/find-user-by-username/"+username, HttpMethod.GET, null, ResponseEntityCustomV2.class);
 
         assertThat(true, is(response.getBody().getContents().isSuccess()));
         assertThat("User data was found", is(response.getBody().getContents().getMessage()));
@@ -43,7 +43,7 @@ public class ResetPasswordStepDefinition {
         HttpEntity<NewPasswordPayload> requestEntity = new HttpEntity<>(passwordPayload, requestHeaders);
 
         ResponseEntity<ResponseEntityCustomV2> loginResponse = restTemplate.exchange
-                ("http://localhost:8080/api/reset", HttpMethod.POST, requestEntity, ResponseEntityCustomV2.class);
+                ("http://localhost:8080/mongodb-app/api/reset", HttpMethod.POST, requestEntity, ResponseEntityCustomV2.class);
 
 
         assertThat(true, is(loginResponse.getBody().getContents().isSuccess()));
@@ -63,7 +63,7 @@ public class ResetPasswordStepDefinition {
         HttpEntity<UserLogin> requestEntity = new HttpEntity<>(user, requestHeaders);
 
         ResponseEntity<AuthenticationResponse> loginResponse = restTemplate.exchange
-                ("http://localhost:8080/api/auth", HttpMethod.POST, requestEntity, AuthenticationResponse.class);
+                ("http://localhost:8080/mongodb-app/api/auth", HttpMethod.POST, requestEntity, AuthenticationResponse.class);
 
 
         assertThat(true, is(loginResponse.getBody().getContents().isSuccess()));
